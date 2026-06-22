@@ -3,23 +3,22 @@ package opstree.common
 import opstree.common.*
 
 def image_scanning_factory(Map step_params) {
-    logger = new logger()
-    //if (step_params.gitleaks_check == true) {
+    def logger = new logger()
     if (step_params.image_scanning_check == 'true') {
         trivy(step_params)
     }
-  else {
-        logger.logger('msg':'No valid option selected for creds scanning. Please mention correct values.', 'level':'WARN')
-  }
+    else {
+        logger.logger('msg':'No valid option selected for image scanning. Please mention correct values.', 'level':'WARN')
     }
+}
 
 def trivy(Map step_params) {
-    logger = new logger()
-    parser = new parser()
-    image_scanning_check_reports = new reports_management()
+    def logger = new logger()
+    def parser = new parser()
+    def image_scanning_check_reports = new reports_management()
 
     logger.logger('msg':'Performing Image Scanning', 'level':'INFO')
-    image_scanning_report_publish = "${step_params.image_scanning_report_publish}"
+    def image_scanning_report_publish = "${step_params.image_scanning_report_publish}"
     def fail_job_if_scan_failed = "${step_params.fail_job_if_scan_failed ?: 'false'}"
 
     dir("${WORKSPACE}") {

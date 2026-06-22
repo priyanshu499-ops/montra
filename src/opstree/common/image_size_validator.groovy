@@ -3,7 +3,7 @@ package opstree.common
 import opstree.common.*
 
 def size_validator_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.image_size_validator_check == 'true') {
         image_size_validator(step_params)
     }
@@ -13,13 +13,13 @@ def size_validator_factory(Map step_params) {
 }
 
 def image_size_validator(Map step_params) {
-    logger = new logger()
-    parser = new parser()
-    image_scanning_check_reports = new reports_management()
+    def logger = new logger()
+    def parser = new parser()
+    def image_scanning_check_reports = new reports_management()
 
     logger.logger('msg':'Performing Image Scanning', 'level':'INFO')
 
-    fail_job_if_validation_fail =  "${step_params.fail_job_if_validation_fail}"
+    def fail_job_if_validation_fail = "${step_params.fail_job_if_validation_fail}"
 
     dir("${WORKSPACE}") {
         try {

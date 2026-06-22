@@ -1,21 +1,19 @@
 package opstree.common
 
-import opstree.common.build_packer_ami
-
 import opstree.common.*
 
 def packer_ami_build(Map step_params) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     logger.logger('msg':'Performing Packer AMI Build', 'level':'INFO')
 
-    repo_url = "${step_params.repo_url}"
-    packer_ami_template_file = "${step_params.packer_ami_template_file}"
-    packer_var_file = "${step_params.packer_var_file}"
-    packer_ami_region = "${step_params.packer_ami_region}"
-    source_code_path = "${step_params.source_code_path}"
-    jenkins_aws_credentials_id = "${step_params.jenkins_aws_credentials_id}"
+    def repo_url = "${step_params.repo_url}"
+    def packer_ami_template_file = "${step_params.packer_ami_template_file}"
+    def packer_var_file = "${step_params.packer_var_file}"
+    def packer_ami_region = "${step_params.packer_ami_region}"
+    def source_code_path = "${step_params.source_code_path}"
+    def jenkins_aws_credentials_id = "${step_params.jenkins_aws_credentials_id}"
 
     def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
     repo_dir = repo_dir + source_code_path

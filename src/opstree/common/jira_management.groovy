@@ -3,7 +3,7 @@ package opstree.common
 import opstree.common.*
 
 def jira_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.enable_jira == 'true') {
         if (step_params.enable_buildlogurl_in_jiracomment == 'true') {
             jira_comments_management(step_params)
@@ -15,18 +15,18 @@ def jira_factory(Map step_params) {
 }
 
 def jira_comments_management(Map step_params) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     logger.logger('msg':'Performing Dependency Check Scanning', 'level':'INFO')
 
-    jenkins_jira_url_env_name = "${step_params.jenkins_jira_url_env_name}"
-    jira_url = env[jenkins_jira_url_env_name]
-    jenkins_jira_creds_id = "${step_params.jenkins_jira_creds_id}"
-    jira_ticket_id = "${step_params.jira_ticket_id}"
-    fail_job_if_jira_operation_failed = "${step_params.fail_job_if_jira_operation_failed}"
-    build_status = "${step_params.build_status}"
-    console_log_url = "${step_params.console_log_url}"
+    def jenkins_jira_url_env_name = "${step_params.jenkins_jira_url_env_name}"
+    def jira_url = env[jenkins_jira_url_env_name]
+    def jenkins_jira_creds_id = "${step_params.jenkins_jira_creds_id}"
+    def jira_ticket_id = "${step_params.jira_ticket_id}"
+    def fail_job_if_jira_operation_failed = "${step_params.fail_job_if_jira_operation_failed}"
+    def build_status = "${step_params.build_status}"
+    def console_log_url = "${step_params.console_log_url}"
 
     try {
         if (jira_ticket_id?.trim()) {

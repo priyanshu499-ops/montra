@@ -3,7 +3,7 @@ package opstree.common
 import opstree.common.*
 
 def snyk_security_scanning_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.snyk_security_check == 'true') {
         snyk_security_scan(step_params)
     }
@@ -13,21 +13,21 @@ def snyk_security_scanning_factory(Map step_params) {
 }
 
 def snyk_security_scan(Map step_params) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     logger.logger('msg':'Performing Snyk Security Check Scanning', 'level':'INFO')
 
-    repo_url = "${step_params.repo_url}"
-    repo_url_type = "${step_params.repo_url_type}"
+    def repo_url = "${step_params.repo_url}"
+    def repo_url_type = "${step_params.repo_url_type}"
 
-    snyk_security_check = "${step_params.snyk_security_check}"
-    fail_job_if_snyk_security_returned_exception = "${step_params.fail_job_if_snyk_security_returned_exception}"
-    snyk_report_format = "${step_params.snyk_report_format}"
-    snyk_api_creds_id = "${step_params.snyk_api_creds_id}"
-    language_codebase_for_snyk_check = "${step_params.language_codebase_for_snyk_check}"
+    def snyk_security_check = "${step_params.snyk_security_check}"
+    def fail_job_if_snyk_security_returned_exception = "${step_params.fail_job_if_snyk_security_returned_exception}"
+    def snyk_report_format = "${step_params.snyk_report_format}"
+    def snyk_api_creds_id = "${step_params.snyk_api_creds_id}"
+    def language_codebase_for_snyk_check = "${step_params.language_codebase_for_snyk_check}"
 
-    repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
 
     sh "mkdir -p ${WORKSPACE}/snyk-reports"
 

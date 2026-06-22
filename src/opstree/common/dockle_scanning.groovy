@@ -3,11 +3,11 @@ package opstree.common
 import opstree.common.*
 
 def dockle(Map step_params) {
-    logger = new logger()
-    image_scanning_check_reports = new reports_management()
+    def logger = new logger()
+    def image_scanning_check_reports = new reports_management()
 
     logger.logger('msg':'Performing Dockle Image Hardening Scan', 'level':'INFO')
-    image_scanning_report_publish = "${step_params.image_scanning_report_publish}"
+    def image_scanning_report_publish = "${step_params.image_scanning_report_publish}"
 
     dir("${WORKSPACE}") {
         sh "mkdir -p ${WORKSPACE}/dockle"

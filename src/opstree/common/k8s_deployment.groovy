@@ -1,13 +1,12 @@
 package opstree.common
 
 import opstree.common.*
-import opstree.common.k8s_deployment
 
 def workdir = env.WORKSPACE ?: '/workspace'
 
 def k8s_deployment_factory(Map config, Boolean returnStatus = false) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     try {
         def repo_dir = parser.fetch_git_repo_name('repo_url': "${config.repo_url}")

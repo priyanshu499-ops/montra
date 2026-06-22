@@ -1,11 +1,9 @@
 package opstree.common
 
-import opstree.common.argocd_deployment
-
 import opstree.common.*
 
 def deployment_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.perform_argocd_deployment == 'true') {
         eks_deployment(step_params)
     }
@@ -15,27 +13,26 @@ def deployment_factory(Map step_params) {
 }
 
 def eks_deployment(Map step_params) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     logger.logger('msg':'Performing Docker Build Step', 'level':'INFO')
 
-    app_name = "${step_params.app_name}"
-    repo_url = "${step_params.repo_url}"
-    deployment_strategy = "${step_params.deployment_strategy}"
-    argocd_credential_id = "${step_params.argocd_credential_id}"
-    argocd_server_env_name = "${step_params.argocd_server_env_name}"
-    argocd_server_url = env[argocd_server_env_name]
-    eks_api_endpoint_env_name = "${step_params.eks_api_endpoint_env_name}"
-    prune_post_deployment = "${step_params.prune_post_deployment}"
-    eks_api_endpoint = env[eks_api_endpoint_env_name]
-    helm_chart_path = "${step_params.helm_chart_path}"
-    values_file_path = "${step_params.values_file_path}"
-    source_code_path = "${step_params.source_code_path}"
-    prune_post_deployment = "${step_params.prune_post_deployment}"
-    repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def app_name = "${step_params.app_name}"
+    def repo_url = "${step_params.repo_url}"
+    def deployment_strategy = "${step_params.deployment_strategy}"
+    def argocd_credential_id = "${step_params.argocd_credential_id}"
+    def argocd_server_env_name = "${step_params.argocd_server_env_name}"
+    def argocd_server_url = env[argocd_server_env_name]
+    def eks_api_endpoint_env_name = "${step_params.eks_api_endpoint_env_name}"
+    def prune_post_deployment = "${step_params.prune_post_deployment}"
+    def eks_api_endpoint = env[eks_api_endpoint_env_name]
+    def helm_chart_path = "${step_params.helm_chart_path}"
+    def values_file_path = "${step_params.values_file_path}"
+    def source_code_path = "${step_params.source_code_path}"
+    def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
     repo_dir = repo_dir + source_code_path
-    repo_branch = "${step_params.repo_branch}"
+    def repo_branch = "${step_params.repo_branch}"
 
     dir("${WORKSPACE}/${repo_dir}") {
         withCredentials([string(credentialsId: argocd_credential_id, variable: 'PASSWORD')]) {
