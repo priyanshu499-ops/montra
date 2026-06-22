@@ -29,13 +29,10 @@ def dependency_scan(Map step_params) {
     def owasp_project_name = "${step_params.owasp_project_name}"
     def owasp_report_format = "${step_params.owasp_report_format}"
     def owasp_report_publish = "${step_params.owasp_report_publish}"
-    def owasp_version = 'latest'
-    def owasp_directory = "${HOME}/OWASP-Dependency-Check"
-    def owasp_project = "dependency-check scan: \$(pwd)"
-    def owasp_data_directory = "${owasp_directory}/data"
-    def owasp_cache_directory = "${owasp_directory}/data/cache"
+    def owasp_version = '10.0.4'
     def source_code_path = "${step_params.source_code_path}"
     def app_stack = "${step_params.app_stack}"
+    def nvd_api_key_creds_id = step_params.nvd_api_key_creds_id ?: 'nvd-api-key'
 
     def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
     def new_repo_dir = repo_dir + source_code_path
@@ -74,10 +71,14 @@ def dependency_scan(Map step_params) {
         def owaspDockerBase = "docker run --rm --memory=4g --memory-swap=4g"
         def owaspDataVol = "-v ${JENKINS_HOME}/owasp-data:/usr/share/dependency-check/data:z"
         def owaspReportsVol = "-v ${WORKSPACE}/owasp-reports:/reports:z"
-        def owaspScanArgs = "--format ALL --project '${owasp_project_name}' --out /reports ${noUpdateFlag}"
 
         try {
-            sh "${owaspDockerBase} -v ${WORKSPACE}/${new_repo_dir}:/src:z ${owaspDataVol} ${owaspReportsVol} owasp/dependency-check:${owasp_version} --scan /src ${owaspScanArgs}"
+            // NVD API key is required for dependency-check 10.x+ (NVD retired v1.1 feeds)
+            withCredentials([string(credentialsId: nvd_api_key_creds_id, variable: 'NVD_API_KEY')]) {
+                def nvdApiKeyArg = "--nvdApiKey \${NVD_API_KEY}"
+                def owaspScanArgs = "--format ALL --project '${owasp_project_name}' --out /reports ${noUpdateFlag} ${nvdApiKeyArg}"
+                sh "${owaspDockerBase} -v ${WORKSPACE}/${new_repo_dir}:/src:z ${owaspDataVol} ${owaspReportsVol} -e NVD_API_KEY=\${NVD_API_KEY} owasp/dependency-check:${owasp_version} --scan /src ${owaspScanArgs}"
+            }
         }
         catch (Exception e) {
             if (fail_job_if_dependency_returned_exception == 'true') {
@@ -97,11 +98,11 @@ def dependency_scan(Map step_params) {
         }
     }
 
-        else if (dependency_scan_tool == 'fossa') {
+    else if (dependency_scan_tool == 'fossa') {
         echo 'Fossa will be added soon'
-        }
+    }
 
-        else {
-        logger.logger('msg':"No valid option was selected for scanning tool. Error Details: ${e}", 'level':'ERROR')
-        }
+    else {
+        logger.logger('msg':'No valid option was selected for scanning tool.', 'level':'ERROR')
+    }
 }
