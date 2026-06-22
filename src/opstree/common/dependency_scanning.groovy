@@ -32,7 +32,7 @@ def dependency_scan(Map step_params) {
     def owasp_version = '10.0.4'
     def source_code_path = "${step_params.source_code_path}"
     def app_stack = "${step_params.app_stack}"
-    def nvd_api_key_creds_id = step_params.nvd_api_key_creds_id ?: 'nvd-api-key'
+    def nvd_api_key_creds_id = step_params.nvd_api_key_creds_id ?: 'NVD_API_KEY'
 
     def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
     def new_repo_dir = repo_dir + source_code_path
