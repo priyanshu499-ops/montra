@@ -49,18 +49,6 @@ def build_dockerfile(Map step_params) {
     def codeartifact_owner = "${step_params.codeartifact_owner}"
 
     dir("${WORKSPACE}/${repo_dir}") {
-            if (!fileExists(dockerfile_location)) {
-                logger.logger('msg':"Dockerfile not found at ${dockerfile_location}. Generating a generic fallback Dockerfile.", 'level':'INFO')
-                def fallbackDockerfile = '''\\
-FROM eclipse-temurin:11-jre-jammy
-WORKDIR /app
-COPY build/libs/ app-libs/
-RUN find app-libs/ -name "*.jar" ! -name "*-plain.jar" -exec cp {} app.jar \\;
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
-'''
-                writeFile(file: dockerfile_location, text: fallbackDockerfile)
-            }
             if (codeartifact_dependency == 'true') {
             withAWS() {
                 def codeArtifactToken = sh(
