@@ -3,7 +3,7 @@ package opstree.java
 import opstree.common.*
 
 def unit_testing_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     logger.logger('msg':"DEBUG unit_testing_factory received unit_testing_check=[${step_params.unit_testing_check}] type=${step_params.unit_testing_check?.getClass()}", 'level':'INFO')
     if (step_params.unit_testing_check == 'true') {
         unit_test(step_params)
@@ -13,24 +13,24 @@ def unit_testing_factory(Map step_params) {
 }
 
 def unit_test(Map step_params) {
-    logger = new logger()
-    parser = new parser()
-    reports_manager = new reports_management()
+    def logger = new logger()
+    def parser = new parser()
+    def reports_manager = new reports_management()
 
     logger.logger('msg':'Performing Unit Tests', 'level':'INFO')
 
-    repo_url                        = step_params.repo_url?.toString()
-    repo_url_type                   = step_params.repo_url_type?.toString()
-    unit_testing_check              = step_params.unit_testing_check?.toString()
-    fail_job_if_unit_issue_detected = step_params.fail_job_if_unit_issue_detected?.toString()
-    unit_test_reports_path          = step_params.unit_test_reports_path?.toString()
-    findbugs_test_report_path       = step_params.findbugs_test_report_path?.toString()
-    source_code_path                = step_params.source_code_path?.toString()
-    java_version                    = step_params.java_version?.toString()
+    def repo_url                        = step_params.repo_url?.toString()
+    def repo_url_type                   = step_params.repo_url_type?.toString()
+    def unit_testing_check              = step_params.unit_testing_check?.toString()
+    def fail_job_if_unit_issue_detected = step_params.fail_job_if_unit_issue_detected?.toString()
+    def unit_test_reports_path          = step_params.unit_test_reports_path?.toString()
+    def findbugs_test_report_path       = step_params.findbugs_test_report_path?.toString()
+    def source_code_path                = step_params.source_code_path?.toString()
+    def java_version                    = step_params.java_version?.toString()
 
     logger.logger('msg':"DEBUG java_version=[${java_version}] fail_job=[${fail_job_if_unit_issue_detected}]", 'level':'INFO')
 
-    repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
 
     dir("${WORKSPACE}/${repo_dir}") {
         if (fail_job_if_unit_issue_detected == 'false') {

@@ -5,7 +5,7 @@ import opstree.common.build_dockerfile
 import opstree.common.*
 
 def build_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.perform_build_dockerfile == 'true') {
         build_dockerfile(step_params)
     }
@@ -15,15 +15,15 @@ def build_factory(Map step_params) {
 }
 
 def build_dockerfile(Map step_params) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     logger.logger('msg':'Performing Docker Build Step', 'level':'INFO')
 
-    repo_url = "${step_params.repo_url}"
-    repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
-    dockerfile_context = "${step_params.dockerfile_context}"
-    dockerfile_location = "${step_params.dockerfile_location}"
+    def repo_url = "${step_params.repo_url}"
+    def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def dockerfile_context = "${step_params.dockerfile_context}"
+    def dockerfile_location = "${step_params.dockerfile_location}"
 
     if (dockerfile_context != null) {
         dockerfile_context = "${WORKSPACE}" + '/' + "${repo_dir}" + dockerfile_context
@@ -39,14 +39,14 @@ def build_dockerfile(Map step_params) {
         dockerfile_location = 'Dockerfile'
     }
 
-    image_name = "${step_params.image_name}"
-    static_code_analysis_check = "${step_params.static_code_analysis_check}"
-    app_stack = "${step_params.app_stack}"
-    source_code_path = "${step_params.source_code_path}"
+    def image_name = "${step_params.image_name}"
+    def static_code_analysis_check = "${step_params.static_code_analysis_check}"
+    def app_stack = "${step_params.app_stack}"
+    def source_code_path = "${step_params.source_code_path}"
     repo_dir = repo_dir + source_code_path
-    codeartifact_dependency = "${step_params.codeartifact_dependency}"
-    codeartifact_domain = "${step_params.codeartifact_domain}"
-    codeartifact_owner = "${step_params.codeartifact_owner}"
+    def codeartifact_dependency = "${step_params.codeartifact_dependency}"
+    def codeartifact_domain = "${step_params.codeartifact_domain}"
+    def codeartifact_owner = "${step_params.codeartifact_owner}"
 
     dir("${WORKSPACE}/${repo_dir}") {
             if (codeartifact_dependency == 'true') {

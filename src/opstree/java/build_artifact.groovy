@@ -4,7 +4,7 @@ import opstree.java.build_artifact
 import opstree.common.*
 
 def build_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.perform_code_build == 'true') {
         build_artifact(step_params)
     } else {
@@ -13,19 +13,19 @@ def build_factory(Map step_params) {
 }
 
 def build_artifact(Map step_params) {
-    logger = new logger()
-    parser = new parser()
+    def logger = new logger()
+    def parser = new parser()
 
     logger.logger('msg':'Performing Build Step', 'level':'INFO')
 
-    repo_url = "${step_params.repo_url}"
-    perform_code_build = "${step_params.perform_code_build}"
-    source_code_path = "${step_params.source_code_path}"
-    java_version = "${step_params.java_version}"
-    gradle_command = "${step_params.gradle_command}"
-    gradle_build_file_location = "${step_params.gradle_build_file_location}"
+    def repo_url = "${step_params.repo_url}"
+    def perform_code_build = "${step_params.perform_code_build}"
+    def source_code_path = "${step_params.source_code_path}"
+    def java_version = "${step_params.java_version}"
+    def gradle_command = "${step_params.gradle_command}"
+    def gradle_build_file_location = "${step_params.gradle_build_file_location}"
 
-    repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
 
     dir("${WORKSPACE}/${repo_dir}") {
         // Gradle build tool support

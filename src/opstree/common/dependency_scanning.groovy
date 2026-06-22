@@ -3,7 +3,7 @@ package opstree.common
 import opstree.common.*
 
 def dependency_scanning_factory(Map step_params) {
-    logger = new logger()
+    def logger = new logger()
     if (step_params.dependency_check == 'true') {
         dependency_scan(step_params)
     }
@@ -13,32 +13,32 @@ def dependency_scanning_factory(Map step_params) {
 }
 
 def dependency_scan(Map step_params) {
-    logger = new logger()
-    parser = new parser()
-    dependency_check_reports = new reports_management()
+    def logger = new logger()
+    def parser = new parser()
+    def dependency_check_reports = new reports_management()
 
     logger.logger('msg':'Performing Dependency Check Scanning', 'level':'INFO')
 
-    repo_url = "${step_params.repo_url}"
-    repo_url_type = "${step_params.repo_url_type}"
+    def repo_url = "${step_params.repo_url}"
+    def repo_url_type = "${step_params.repo_url_type}"
 
-    dependency_check = "${step_params.dependency_check}"
-    dependency_scan_tool = "${step_params.dependency_scan_tool}"
-    fail_job_if_dependency_returned_exception = "${step_params.fail_job_if_dependency_returned_exception}"
+    def dependency_check = "${step_params.dependency_check}"
+    def dependency_scan_tool = "${step_params.dependency_scan_tool}"
+    def fail_job_if_dependency_returned_exception = "${step_params.fail_job_if_dependency_returned_exception}"
 
-    owasp_project_name = "${step_params.owasp_project_name}"
-    owasp_report_format = "${step_params.owasp_report_format}"
-    owasp_report_publish = "${step_params.owasp_report_publish}"
-    owasp_version = 'latest'
-    owasp_directory = "${HOME}/OWASP-Dependency-Check"
-    owasp_project = "dependency-check scan: \$(pwd)"
-    owasp_data_directory = "${owasp_directory}/data"
-    owasp_cache_directory = "${owasp_directory}/data/cache"
-    source_code_path = "${step_params.source_code_path}"
-    app_stack = "${step_params.app_stack}"
+    def owasp_project_name = "${step_params.owasp_project_name}"
+    def owasp_report_format = "${step_params.owasp_report_format}"
+    def owasp_report_publish = "${step_params.owasp_report_publish}"
+    def owasp_version = 'latest'
+    def owasp_directory = "${HOME}/OWASP-Dependency-Check"
+    def owasp_project = "dependency-check scan: \$(pwd)"
+    def owasp_data_directory = "${owasp_directory}/data"
+    def owasp_cache_directory = "${owasp_directory}/data/cache"
+    def source_code_path = "${step_params.source_code_path}"
+    def app_stack = "${step_params.app_stack}"
 
-    repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
-    new_repo_dir = repo_dir + source_code_path
+    def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def new_repo_dir = repo_dir + source_code_path
 
     if (dependency_scan_tool == 'owasp') {
         sh "mkdir -p ${WORKSPACE}/owasp-reports"
