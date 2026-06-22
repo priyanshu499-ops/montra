@@ -1,7 +1,5 @@
 package opstree.common
 
-import opstree.common.build_dockerfile
-
 import opstree.common.*
 
 def build_factory(Map step_params) {
@@ -22,21 +20,23 @@ def build_dockerfile(Map step_params) {
 
     def repo_url = "${step_params.repo_url}"
     def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+    def repo_root_dir = repo_dir  // preserve original repo root for path construction
+
     def dockerfile_context = "${step_params.dockerfile_context}"
     def dockerfile_location = "${step_params.dockerfile_location}"
 
-    if (dockerfile_context != null) {
-        dockerfile_context = "${WORKSPACE}" + '/' + "${repo_dir}" + dockerfile_context
+    if (dockerfile_context != '') {
+        dockerfile_context = "${WORKSPACE}/${repo_root_dir}${dockerfile_context}"
     }
     else {
-        dockerfile_context = "${WORKSPACE}" + '/' + "${repo_dir}"
+        dockerfile_context = "${WORKSPACE}/${repo_root_dir}"
     }
 
     if (dockerfile_location != '') {
-        dockerfile_location = "${WORKSPACE}" + '/' + "${repo_dir}" + dockerfile_location
+        dockerfile_location = "${WORKSPACE}/${repo_root_dir}/${dockerfile_location}"
     }
     else {
-        dockerfile_location = 'Dockerfile'
+        dockerfile_location = "${WORKSPACE}/${repo_root_dir}/Dockerfile"
     }
 
     def image_name = "${step_params.image_name}"

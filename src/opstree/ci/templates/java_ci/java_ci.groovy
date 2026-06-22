@@ -269,8 +269,8 @@ def call(Map step_params) {
                 }
 
                 if (currentBuild.currentResult == 'SUCCESS' && get_params_value(enableOverride, step_params, 'enable_trigger_cd_pipeline') != null && get_params_value(enableOverride, step_params, 'enable_trigger_cd_pipeline').toBoolean() ) {
-                        parser = new parser()
-                        repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
+                        def parser = new parser()
+                        def repo_dir = parser.fetch_git_repo_name('repo_url':"${repo_url}")
 
                         def docker_image_tag = sh(
                         script: """git config --global --add safe.directory ${WORKSPACE}/${repo_dir} && \

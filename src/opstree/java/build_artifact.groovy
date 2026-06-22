@@ -1,6 +1,5 @@
 package opstree.java
 
-import opstree.java.build_artifact
 import opstree.common.*
 
 def build_factory(Map step_params) {
